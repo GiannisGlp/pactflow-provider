@@ -46,20 +46,20 @@ ci:
 		EXIT_CODE=1 make publish_provider_contract; \
 	fi;
 
-.PHONY: publish_provider_contract
+PHONY: publish_provider_contract
 
 publish_provider_contract:
-    @echo "\n========== STAGE: publish-provider-contract (spec + results) ==========\n"
-    ${PACTFLOW_CLI_COMMAND} publish-provider-contract \
-      ${OAS_PATH} \
-      --provider ${PACTICIPANT} \
-      --provider-app-version ${GIT_COMMIT} \
-      --branch ${BRANCH} \
-      --content-type application/yaml \
-      --verification-exit-code=${EXIT_CODE} \
-      --verification-results ${REPORT_PATH} \
-      --verification-results-content-type ${REPORT_FILE_CONTENT_TYPE} \
-      --verifier ${VERIFIER_TOOL}
+	@echo "\n========== STAGE: publish-provider-contract (spec + results) ==========\n"
+	${PACTFLOW_CLI_COMMAND} publish-provider-contract \
+	  ${OAS_PATH} \
+	  --provider ${PACTICIPANT} \
+	  --provider-app-version ${VERSION} \
+	  --branch ${BRANCH} \
+	  --content-type application/yaml \
+	  --verification-exit-code=${EXIT_CODE} \
+	  --verification-results ${REPORT_PATH} \
+	  --verification-results-content-type ${REPORT_FILE_CONTENT_TYPE}\
+	  --verifier ${VERIFIER_TOOL}
 
 # Run the ci target from a developer machine with the environment variables
 # set as if it was on GitHub Actions
@@ -100,4 +100,4 @@ deploy_app: record_deployment
 	@echo "Deploying to prod"
 
 record_deployment:
-	@${PACT_BROKER_CLI_COMMAND} record_deployment --pacticipant ${PACTICIPANT} --version ${GIT_COMMIT} --environment production
+	@${PACT_BROKER_CLI_COMMAND} record_deployment --pacticipant ${PACTICIPANT} --version ${VERSION} --environment production

@@ -1,0 +1,77 @@
+name: CI/CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: CI/CD Pipeline
+    runs-on: ubuntu-latest
+
+    env:
+      PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
+      PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+      PACTICIPANT: pactflow-provider
+      OAS_PATH: oas/swagger.yml
+      REPORT_PATH: report.txt
+      REPORT_FILE_CONTENT_TYPE: text/plain
+      VERIFIER_TOOL: restassured
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Set up Docker
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+
+      # Run tests and generate verification results
+      - name: Run Tests
+        run: |
+          ./gradlew clean test > $REPORT_PATH
+
+      # Publish provider contract
+      - name: Publish Provider Contract
+        run: |
+          docker run --rm -v $PWD:$PWD -w $PWD \
+            -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN=$PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest pactflow publish-provider-contract \
+            $OAS_PATH \
+            --provider $PACTICIPANT \
+            --provider-app-version $(git rev-parse --short HEAD) \
+            --branch $(git rev-parse --abbrev-ref HEAD) \
+            --content-type application/yaml \
+            --verification-exit-code=0 \
+            --verification-results $REPORT_PATH \
+            --verification-results-content-type $REPORT_FILE_CONTENT_TYPE \
+            --verifier $VERIFIER_TOOL
+
+      # Check if the provider can be deployed
+      - name: Can I Deploy?
+        id: can_i_deploy
+        run: |
+          docker run --rm -v $PWD:$PWD -w $PWD \
+            -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN=$PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest pact-broker can-i-deploy \
+            --pacticipant $PACTICIPANT \
+            --version $(git rev-parse --short HEAD) \
+            --to-environment production \
+            --retry-while-unknown 6 \
+            --retry-interval 10
+
+      # Fail the PR if can-i-deploy fails
+      - name: Fail PR if Can I Deploy Fails
+        if: failure()
+        run: |
+          echo "Can I Deploy check failed. Failing the PR."
+          exit 1
