@@ -92,7 +92,7 @@ can_i_deploy:
 	@${PACT_BROKER_CLI_COMMAND} can-i-deploy \
 	  --pacticipant ${PACTICIPANT} \
 	  --version ${GIT_COMMIT} \
-	  --to-environment production \
+	  --to-environment Production \
 	  --retry-while-unknown 6 \
 	  --retry-interval 10
 

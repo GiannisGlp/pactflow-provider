@@ -42,7 +42,7 @@ jobs:
             $OAS_PATH \
             --provider $PACTICIPANT \
             --provider-app-version $(git rev-parse --short HEAD) \
-            --branch $(git rev-parse --abbrev-ref HEAD) \
+            --branch $GITHUB_REF_NAME \
             --content-type application/yaml \
             --verification-exit-code=0 \
             --verification-results $REPORT_PATH \
@@ -59,6 +59,6 @@ jobs:
             pactfoundation/pact-cli:latest pact-broker can-i-deploy \
             --pacticipant $PACTICIPANT \
             --version $(git rev-parse --short HEAD) \
-            --to-environment production \
+            --to-environment Production \
             --retry-while-unknown 6 \
             --retry-interval 10 || exit 1
