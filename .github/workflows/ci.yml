@@ -72,3 +72,14 @@ jobs:
             --to-environment production \
             --retry-while-unknown 6 \
             --retry-interval 10 || exit 1
+
+      # Record deployment in PactFlow
+      - name: Record Deployment
+        run: |
+          docker run --rm -v $PWD:$PWD -w $PWD \
+            -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN=$PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest pact-broker record-deployment \
+            --pacticipant $PACTICIPANT \
+            --version $(git rev-parse --short HEAD) \
+            --environment production || exit 1
