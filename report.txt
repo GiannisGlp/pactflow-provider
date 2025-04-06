@@ -1,1 +1,53 @@
-tested via RestAssured
+> Task :clean
+> Task :compileJava
+> Task :processResources NO-SOURCE
+> Task :classes
+> Task :compileTestJava
+> Task :processTestResources
+> Task :testClasses
+2025-04-06T15:43:38.476+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.b.a.ApplicationAvailabilityBean      : Application availability state ReadinessState changed from ACCEPTING_TRAFFIC to REFUSING_TRAFFIC
+2025-04-06T15:43:38.476+03:00 DEBUG 91624 --- [ionShutdownHook] ConfigServletWebServerApplicationContext : Closing org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@4de79b7d, started on Sun Apr 06 15:43:33 EEST 2025
+2025-04-06T15:43:38.477+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147482623
+2025-04-06T15:43:38.478+03:00  INFO 91624 --- [ionShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-04-06T15:43:38.486+03:00  INFO 91624 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-04-06T15:43:38.486+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 2147481599
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [tomcat-shutdown] o.s.c.support.DefaultLifecycleProcessor  : Bean 'webServerGracefulShutdown' completed its stop procedure
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Bean 'webServerStartStop' completed its stop procedure
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase 1073741823
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Bean 'applicationTaskExecutor' completed its stop procedure
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Stopping beans in phase -2147483647
+2025-04-06T15:43:38.487+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.c.support.DefaultLifecycleProcessor  : Bean 'springBootLoggingLifecycle' completed its stop procedure
+2025-04-06T15:43:38.488+03:00 DEBUG 91624 --- [ionShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2025-04-06T15:43:38.488+03:00  INFO 91624 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-04-06T15:43:38.488+03:00 DEBUG 91624 --- [ionShutdownHook] o.hibernate.internal.SessionFactoryImpl  : HHH000031: Closing
+2025-04-06T15:43:38.488+03:00 DEBUG 91624 --- [ionShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2025-04-06T15:43:38.488+03:00 DEBUG 91624 --- [ionShutdownHook] org.hibernate.SQL                        : drop table if exists product cascade 
+2025-04-06T15:43:38.489+03:00 DEBUG 91624 --- [ionShutdownHook] o.h.type.spi.TypeConfiguration$Scope     : Un-scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration$Scope@38adf286] from SessionFactory [org.hibernate.internal.SessionFactoryImpl@5128efc]
+2025-04-06T15:43:38.490+03:00 DEBUG 91624 --- [ionShutdownHook] o.h.s.i.AbstractServiceRegistryImpl      : Implicitly destroying ServiceRegistry on de-registration of all child ServiceRegistries
+2025-04-06T15:43:38.490+03:00 DEBUG 91624 --- [ionShutdownHook] o.h.b.r.i.BootstrapServiceRegistryImpl   : Implicitly destroying Boot-strap registry on de-registration of all child ServiceRegistries
+2025-04-06T15:43:38.490+03:00  INFO 91624 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [ionShutdownHook] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Before shutdown stats (total=10, active=0, idle=10, waiting=0)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn0: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn1: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn2: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn3: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn4: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn5: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn6: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn7: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn8: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.491+03:00 DEBUG 91624 --- [nnection closer] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Closing connection conn9: url=jdbc:h2:mem:c4d1b066-ef7e-48da-8ccd-9eb395df7ec7 user=SA: (connection evicted)
+2025-04-06T15:43:38.492+03:00 DEBUG 91624 --- [ionShutdownHook] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - After shutdown stats (total=0, active=0, idle=0, waiting=0)
+2025-04-06T15:43:38.492+03:00  INFO 91624 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+> Task :test
+
+[Incubating] Problems report is available at: file:///Users/vanonatobaidze/projects/pactflow/pactflow-provider/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 7s
+5 actionable tasks: 5 executed

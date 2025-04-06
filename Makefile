@@ -64,9 +64,11 @@ publish_provider_contract:
 # Run the ci target from a developer machine with the environment variables
 # set as if it was on GitHub Actions
 # Use this for quick feedback when playing around with your workflows.
-fake_ci:
-	make ci; 
-	make deploy_target
+fake_ci: .env
+	CI=true \
+	GIT_COMMIT=`git rev-parse --short HEAD`+`date +%s` \
+	GIT_BRANCH=`git rev-parse --abbrev-ref HEAD` \
+	make ci
 
 deploy_target: can_i_deploy $(DEPLOY_TARGET)
 
@@ -74,7 +76,7 @@ deploy_target: can_i_deploy $(DEPLOY_TARGET)
 ## Build/test tasks
 ## =====================
 
-test:
+test: .env
 	./gradlew clean test -i
 
 ## =====================
