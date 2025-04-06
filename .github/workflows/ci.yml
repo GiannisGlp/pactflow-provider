@@ -27,6 +27,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Determine the branch name
+      - name: Set Branch Name
+        id: set_branch_name
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "BRANCH_NAME=${{ github.head_ref }}" >> $GITHUB_ENV
+          else
+            echo "BRANCH_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+          fi
+
       # Run tests and generate verification results
       - name: Run Tests
         run: |
@@ -42,7 +52,7 @@ jobs:
             $OAS_PATH \
             --provider $PACTICIPANT \
             --provider-app-version $(git rev-parse --short HEAD) \
-            --branch $GITHUB_REF_NAME \
+            --branch $BRANCH_NAME \
             --content-type application/yaml \
             --verification-exit-code=0 \
             --verification-results $REPORT_PATH \
@@ -59,6 +69,6 @@ jobs:
             pactfoundation/pact-cli:latest pact-broker can-i-deploy \
             --pacticipant $PACTICIPANT \
             --version $(git rev-parse --short HEAD) \
-            --to-environment Production \
+            --to-environment production \
             --retry-while-unknown 6 \
             --retry-interval 10 || exit 1
