@@ -53,7 +53,7 @@ publish_provider_contract:
     ${PACTFLOW_CLI_COMMAND} publish-provider-contract \
       ${OAS_PATH} \
       --provider ${PACTICIPANT} \
-      --provider-app-version ${VERSION} \
+      --provider-app-version ${GIT_COMMIT} \
       --branch ${BRANCH} \
       --content-type application/yaml \
       --verification-exit-code=${EXIT_CODE} \
@@ -91,7 +91,7 @@ no_deploy:
 can_i_deploy:
 	@${PACT_BROKER_CLI_COMMAND} can-i-deploy \
 	  --pacticipant ${PACTICIPANT} \
-	  --version ${VERSION} \
+	  --version ${GIT_COMMIT} \
 	  --to-environment production \
 	  --retry-while-unknown 6 \
 	  --retry-interval 10
@@ -100,4 +100,4 @@ deploy_app: record_deployment
 	@echo "Deploying to prod"
 
 record_deployment:
-	@${PACT_BROKER_CLI_COMMAND} record_deployment --pacticipant ${PACTICIPANT} --version ${VERSION} --environment production
+	@${PACT_BROKER_CLI_COMMAND} record_deployment --pacticipant ${PACTICIPANT} --version ${GIT_COMMIT} --environment production
