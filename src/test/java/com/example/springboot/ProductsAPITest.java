@@ -38,7 +38,8 @@ class ProductsAPITest {
       .build();
 
   // Use this for "negative scenario" testing
-  // ref: https://bitbucket.org/atlassian/swagger-request-validator/issues/332/restassured-skip-request-validation-with
+  // ref:
+  // https://bitbucket.org/atlassian/swagger-request-validator/issues/332/restassured-skip-request-validation-with
   private OpenApiValidationFilter responseOnlyValidation = new OpenApiValidationFilter(responseOnlyValidator);
 
   @Test
@@ -51,13 +52,31 @@ class ProductsAPITest {
 
   @Test
   public void testCreateProduct400() {
-    given().port(port).filter(responseOnlyValidation).body("{}").contentType("application/json").when().post("/products")
+    given().port(port).filter(responseOnlyValidation).body("{}").contentType("application/json").when()
+        .post("/products")
         .then().assertThat().statusCode(400);
   }
 
   @Test
   public void testListProducts() {
     given().port(port).filter(validationFilter).when().get("/products").then().assertThat().statusCode(200);
+  }
+
+  @Test
+  public void testCreateProductInvalid400() {
+    String invalidProduct = "{\"invalidField\": \"invalidValue\"}";
+
+    given()
+        .port(port)
+        .filter(responseOnlyValidation)
+        .body(invalidProduct)
+        .contentType("application/json")
+        .when()
+        .post("/products")
+        .then()
+        .assertThat()
+        .statusCode(400)
+        .body("error", org.hamcrest.Matchers.equalTo("Bad Request")); // Match the actual error message
   }
 
   @Test
@@ -72,6 +91,7 @@ class ProductsAPITest {
 
   @Test
   public void testGetProduct400() {
-    given().port(port).filter(responseOnlyValidation).when().get("/product/notanumber").then().assertThat().statusCode(400);
+    given().port(port).filter(responseOnlyValidation).when().get("/product/notanumber").then().assertThat()
+        .statusCode(400);
   }
 }

@@ -16,7 +16,7 @@ PACTFLOW_CLI_COMMAND:=${PACT_CLI_DOCKER_RUN_COMMAND} ${PACTFLOW_CLI_COMMAND}
 ## ====================
 ## Demo Specific Example Variables
 ## ====================
-VERSION?=$(shell npx -y absolute-version)
+VERSION?=$(shell npx -y absolute-version)-$(shell git rev-parse --short HEAD)
 BRANCH?=$(shell git rev-parse --abbrev-ref HEAD)
 OAS_PATH=oas/swagger.yml
 REPORT_PATH?=report.txt
@@ -27,7 +27,7 @@ VERIFIER_TOOL?=restassured
 ## Only deploy from main
 ## ====================
 
-ifeq ($(BRANCH),master)
+ifeq ($(BRANCH),main)
 	DEPLOY_TARGET=deploy
 else
 	DEPLOY_TARGET=no_deploy
@@ -46,9 +46,11 @@ ci:
 		EXIT_CODE=1 make publish_provider_contract; \
 	fi;
 
+.PHONY: publish_provider_contract
+
 publish_provider_contract:
-	@echo "\n========== STAGE: publish-provider-contract (spec + results) ==========\n"
-	${PACTFLOW_CLI_COMMAND} publish-provider-contract \
+    @echo "\n========== STAGE: publish-provider-contract (spec + results) ==========\n"
+    ${PACTFLOW_CLI_COMMAND} publish-provider-contract \
       ${OAS_PATH} \
       --provider ${PACTICIPANT} \
       --provider-app-version ${VERSION} \
@@ -56,7 +58,7 @@ publish_provider_contract:
       --content-type application/yaml \
       --verification-exit-code=${EXIT_CODE} \
       --verification-results ${REPORT_PATH} \
-      --verification-results-content-type ${REPORT_FILE_CONTENT_TYPE}\
+      --verification-results-content-type ${REPORT_FILE_CONTENT_TYPE} \
       --verifier ${VERIFIER_TOOL}
 
 # Run the ci target from a developer machine with the environment variables

@@ -35,6 +35,19 @@ paths:
                     id: "1234"
                     type: "food"
                     price: 42
+        "400":  # Correctly aligned at the same level as "200"
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              examples:
+                application/json:
+                  value:
+                    error: "Bad Request"
     get:
       summary: List all products
       description: Returns all products
