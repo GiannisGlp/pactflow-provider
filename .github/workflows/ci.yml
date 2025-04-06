@@ -30,7 +30,7 @@ jobs:
       # Run tests and generate verification results
       - name: Run Tests
         run: |
-          ./gradlew clean test > $REPORT_PATH
+          ./gradlew clean test > $REPORT_PATH || exit 1
 
       # Publish provider contract
       - name: Publish Provider Contract
@@ -47,7 +47,7 @@ jobs:
             --verification-exit-code=0 \
             --verification-results $REPORT_PATH \
             --verification-results-content-type $REPORT_FILE_CONTENT_TYPE \
-            --verifier $VERIFIER_TOOL
+            --verifier $VERIFIER_TOOL || exit 1
 
       # Check if the provider can be deployed
       - name: Can I Deploy?
@@ -61,11 +61,4 @@ jobs:
             --version $(git rev-parse --short HEAD) \
             --to-environment production \
             --retry-while-unknown 6 \
-            --retry-interval 10
-
-      # Fail the PR if can-i-deploy fails
-      - name: Fail PR if Can I Deploy Fails
-        if: failure()
-        run: |
-          echo "Can I Deploy check failed. Failing the PR."
-          exit 1
+            --retry-interval 10 || exit 1
