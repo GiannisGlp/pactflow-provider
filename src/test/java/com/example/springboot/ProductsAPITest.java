@@ -65,7 +65,6 @@ class ProductsAPITest {
   @Test
   public void testCreateProductInvalid400() {
     String invalidProduct = "{\"invalidField\": \"invalidValue\"}";
-
     given()
         .port(port)
         .filter(responseOnlyValidation)
