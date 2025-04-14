@@ -61,6 +61,15 @@ publish_provider_contract:
 	  --verification-results-content-type ${REPORT_FILE_CONTENT_TYPE}\
 	  --verifier ${VERIFIER_TOOL}
 
+delete_branch:
+	@if [ -z "${BRANCH_NAME}" ]; then \
+	  echo "Error: BRANCH_NAME is not set. Please provide the branch name to delete."; \
+	  exit 1; \
+	fi
+	@"${PACT_CLI}" broker delete-branch \
+	  --pacticipant ${PACTICIPANT} \
+	  --branch ${BRANCH_NAME}
+
 # Run the ci target from a developer machine with the environment variables
 # set as if it was on GitHub Actions
 # Use this for quick feedback when playing around with your workflows.
