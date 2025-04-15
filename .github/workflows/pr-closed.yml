@@ -1,0 +1,34 @@
+name: PR Closed Workflow
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  delete-pactflow-branch:
+    name: Delete Incoming PactFlow Branch
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged == true }}
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Delete PactFlow branch
+      - name: Delete Incoming PactFlow Branch
+        env:
+          PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
+          PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+        run: |
+          INCOMING_BRANCH=${{ github.event.pull_request.head.ref }}
+          echo "Deleting incoming branch on PactFlow: $INCOMING_BRANCH"
+          docker run --rm \
+            -v $PWD:$PWD \
+            -w $PWD \
+            -e PACT_BROKER_BASE_URL=$PACT_BROKER_BASE_URL \
+            -e PACT_BROKER_TOKEN=$PACT_BROKER_TOKEN \
+            pactfoundation/pact-cli:latest broker delete-branch \
+            --pacticipant pactflow-provider \
+            --branch $INCOMING_BRANCH
